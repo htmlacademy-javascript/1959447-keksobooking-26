@@ -3,7 +3,7 @@ import {initSlider, resetSlider} from './form-slider.js';
 import {pristine} from './form-validation.js';
 import {resetMap} from './map.js';
 import {displayMessageError} from './message.js';
-import { addImageHouseLoader, addAvatarLoader } from './images.js';
+import { addImageHouseLoader, addAvatarLoader, clearPreview } from './images.js';
 
 const formElement = document.querySelector('.ad-form');
 const fieldsetElements = formElement.querySelectorAll('fieldset');
@@ -36,6 +36,7 @@ const resetForm = () => {
   formElement.reset();
   pristine.reset();
   resetMap();
+  clearPreview();
   resetSlider();
 };
 

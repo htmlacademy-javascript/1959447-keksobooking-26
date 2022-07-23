@@ -1,4 +1,4 @@
-import {IMAGE_FILE_TYPES} from './consts.js';
+import {IMAGE_FILE_TYPES, DEFAULT_AVATAR} from './consts.js';
 
 const avatarImageChooserElement = document.querySelector('#avatar');
 const avatarPreviewElement = document.querySelector('.ad-form-header__preview').querySelector('img');
@@ -34,6 +34,15 @@ const addImageHouseLoader = () => {
   });
 };
 
-export {addImageHouseLoader, addAvatarLoader};
+const clearPreview = () => {
+  const imagePreviewBlock = document.querySelector('.ad-form__photo img');
+  avatarPreviewElement.src = DEFAULT_AVATAR;
+
+  if (imagePreviewBlock) {
+    imagePreviewBlock.remove();
+  }
+};
+
+export {addImageHouseLoader, addAvatarLoader, clearPreview};
 
 

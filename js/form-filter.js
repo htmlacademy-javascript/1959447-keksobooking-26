@@ -1,85 +1,110 @@
-import {addPoints, markerGroup} from './map.js';
+import { clearMap, getAds,renderPoints} from './map.js';
+import { MAX_POINTS_RENDER_LIMIT,  PriceType, PriceRange } from './consts.js';
 
 const formFilterElement = document.querySelector('.map__filters ');
-const fildsetFilterElements = formFilterElement.querySelectorAll('select, input');
+const fieldsetFilterElements = formFilterElement.querySelectorAll('select, input');
 const filterElement = document.querySelector('.map__filters');
+const housingTypeElement = filterElement.querySelector('#housing-type');
+const roomsElement = filterElement.querySelector('#housing-rooms');
+const guestsNumberElement = filterElement.querySelector('#housing-guests');
+const priceElement = filterElement.querySelector('#housing-price');
+const featuresElement = formFilterElement.querySelector('#housing-features');
 
 const disableFilterForm = () => {
   formFilterElement.classList.add('map__filters--disabled');
-  fildsetFilterElements.forEach((fildsetFilterElement) => {
-    fildsetFilterElement.disabled = true;
+  fieldsetFilterElements.forEach((fieldsetFilterElement) => {
+    fieldsetFilterElement.disabled = true;
   });
 };
 
 const enableFilterForm = () => {
   formFilterElement.classList.remove('map__filters--disabled');
-  fildsetFilterElements.forEach((fildsetFilterElement) => {
-    fildsetFilterElement.disabled = false;
+  fieldsetFilterElements.forEach((fieldsetFilterElement) => {
+    fieldsetFilterElement.disabled = false;
   });
 };
 
-const filterType = (paramAdvertisement) => {
-  const typeElement = filterElement.querySelector('#housing-type');
-  return typeElement.value === paramAdvertisement.offer.type || typeElement.value === 'any';
-};
+/**
+ * @param {string} housingType
+ * @return {boolean}
+ */
+const checkHousingType = (housingType) => (
+  housingTypeElement.value === 'any' || housingType === housingTypeElement.value
+);
 
-const filterRooms = (item) => {
-  const roomsElement = filterElement.querySelector('#housing-rooms');
-  return Number(roomsElement.value) === Number(item.offer.rooms) || roomsElement.value === 'any';
-};
+/**
+ * @param {number} rooms
+ * @return {boolean}
+ */
+const checkRooms = (rooms) => (
+  roomsElement.value === 'any' || rooms === Number(roomsElement.value)
+);
 
-const filterGuestsNumber = (item) => {
-  const guestsNumberElement = filterElement.querySelector('#housing-guests');
-  return Number(guestsNumberElement.value) === Number(item.offer.guests) || guestsNumberElement.value === 'any';
-};
+/**
+ * @param {number} guestsCount
+ * @return {boolean}
+ */
+const checkGuestsNumber = (guestsCount) => (
+  guestsNumberElement.value === 'any' || guestsCount === Number(guestsNumberElement.value)
+);
 
-const filterPrice = (item) => {
-  const priceElement = filterElement.querySelector('#housing-price');
-  if(priceElement.value === 'any') {
-    return item.offer.price;
+const checkPrice = (price) => {
+  switch (priceElement.value) {
+    case PriceType.ANY:
+      return true;
+
+    case PriceType.LOW:
+      return price < PriceRange.MIDDLE;
+
+    case PriceType.MIDDLE:
+      return price >= PriceRange.MIDDLE && price < PriceRange.HIGH;
+
+    case PriceType.HIGH:
+      return price > PriceRange.HIGH;
+
+    default:
+      return false;
   }
-  if(priceElement.value === 'middle') {
-    return item.offer.price >= 10000 && item.offer.price <= 50000;
-  }
-  if(priceElement.value === 'low') {
-    return item.offer.price < 10000;
-  }
-  if(priceElement.value === 'high') {
-    return item.offer.price > 50000;
-  }
-
-  return false;
 };
 
-const filterFeatures = (item) => {
-  const filtersFeatures = [];
-  const checkedFilters = document
-    .querySelector('.map__features')
-    .querySelectorAll('input:checked');
-  checkedFilters.forEach((element) => filtersFeatures.push(element.value));
-  if (item.offer.features) {
-    return filtersFeatures.every((feature) => item.offer.features.includes(feature));
+/**
+ * @param {string[]} features
+ * @param {string[]} checkedFeatures
+ * @return {boolean}
+ */
+const checkFeatures = (features, checkedFeatures) => (
+  checkedFeatures.every((checkedFeature) => features.includes(checkedFeature))
+);
+
+const filterAds = () => {
+  clearMap();
+
+  const ads = getAds();
+  const checkedFeaturesElements = featuresElement.querySelectorAll('.map__checkbox:checked');
+  const checkedFeatures = Array.from(checkedFeaturesElements).map((element) => element.value);
+  const filteredAds = [];
+  for (const ad of ads) {
+    const {offer} = ad;
+    if (
+      checkHousingType(offer.type)
+      && checkRooms(offer.rooms)
+      && checkGuestsNumber(offer.guests)
+      && checkPrice(offer.price)
+      && checkFeatures(offer.features || [], checkedFeatures)
+    ) {
+      filteredAds.push(ad);
+    }
+
+    if (filteredAds.length >= MAX_POINTS_RENDER_LIMIT) {
+      break;
+    }
   }
-  return false;
+
+  renderPoints(filteredAds);
 };
 
-const filterMap = (paramData) => {
-  markerGroup.clearLayers();
-
-  const filtered = paramData
-    .filter(filterType)
-    .filter(filterRooms)
-    .filter(filterGuestsNumber)
-    .filter(filterPrice)
-    .filter(filterFeatures);
-
-  addPoints (filtered);
+const initFilters = (cb) => {
+  formFilterElement.addEventListener('change', cb);
 };
 
-const setFilterChange = (cb) => {
-  filterElement.addEventListener('change', () => {
-    cb();
-  });
-};
-
-export {disableFilterForm, enableFilterForm, filterMap,  setFilterChange};
+export {disableFilterForm, enableFilterForm, filterAds, initFilters};
