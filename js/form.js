@@ -4,6 +4,8 @@ import {pristine} from './form-validation.js';
 import {resetMap} from './map.js';
 import {displayMessageError} from './message.js';
 import { addImageHouseLoader, addAvatarLoader, clearPreview } from './images.js';
+import {clearFilterForm, filterAds} from './form-filter.js';
+import {ERROR_MESSAGE} from './consts.js';
 
 const formElement = document.querySelector('.ad-form');
 const fieldsetElements = formElement.querySelectorAll('fieldset');
@@ -38,6 +40,8 @@ const resetForm = () => {
   resetMap();
   clearPreview();
   resetSlider();
+  clearFilterForm();
+  filterAds();
 };
 
 const resetFormButton = () => {
@@ -47,7 +51,6 @@ const resetFormButton = () => {
   });
 };
 
-//объединит все действия с формой: слайдер, валидация
 const initForm = () => {
   initSlider();
   addressElement.readonly = true;
@@ -70,7 +73,7 @@ const setUserFormSubmit = (onSuccess) => {
           resetForm();
         },
         () => {
-          displayMessageError();
+          displayMessageError(ERROR_MESSAGE);
         },
         new FormData(evt.target),
       );

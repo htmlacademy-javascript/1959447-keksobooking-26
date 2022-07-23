@@ -1,5 +1,3 @@
-import {ERROR_MESSAGE} from './consts.js';
-
 const getData = (onSuccess, onFail) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
@@ -23,11 +21,11 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail(ERROR_MESSAGE);
+        onFail();
       }
     })
     .catch(() => {
-      onFail(ERROR_MESSAGE);
+      onFail();
     });
 };
 

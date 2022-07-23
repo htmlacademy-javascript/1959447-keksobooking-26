@@ -107,4 +107,6 @@ const initFilters = (cb) => {
   formFilterElement.addEventListener('change', cb);
 };
 
-export {disableFilterForm, enableFilterForm, filterAds, initFilters};
+const clearFilterForm = () => formFilterElement.reset();
+
+export {disableFilterForm, enableFilterForm, filterAds, initFilters, clearFilterForm};

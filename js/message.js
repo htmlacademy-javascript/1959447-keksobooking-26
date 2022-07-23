@@ -20,7 +20,6 @@ const displayMessageError = (error) => {
 
   const closeError = () => {
     errorMessageElement.remove();
-    // document.removeEventListener('keydown', evt);
   };
 
   const errorMessageCloseButton = document.querySelector('.error__button');
