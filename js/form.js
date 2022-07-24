@@ -74,6 +74,7 @@ const setUserFormSubmit = (onSuccess) => {
         },
         () => {
           displayMessageError(ERROR_MESSAGE);
+          unBlockSubmitButton();
         },
         new FormData(evt.target),
       );

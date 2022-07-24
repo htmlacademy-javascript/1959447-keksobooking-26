@@ -18,23 +18,26 @@ const displayMessageError = (error) => {
   const errorText = document.querySelector('.error__message');
   errorText.textContent = error;
 
-  const closeError = () => {
-    errorMessageElement.remove();
-  };
-
-  const errorMessageCloseButton = document.querySelector('.error__button');
-  errorMessageCloseButton.addEventListener('click', closeError);
-
   const eventOnEsc = (evt) => {
     if (evt.keyCode === 27) {
       closeError();
     }
   };
-  document.addEventListener('keydown', eventOnEsc);
 
   const eventOnClick = () => {
     closeError();
   };
+
+  function closeError () {
+    errorMessageElement.remove();
+    document.removeEventListener('keydown', eventOnEsc);
+    document.removeEventListener('click', eventOnClick);
+  }
+
+  const errorMessageCloseButton = document.querySelector('.error__button');
+  errorMessageCloseButton.addEventListener('click', closeError);
+
+  document.addEventListener('keydown', eventOnEsc);
   document.addEventListener('click', eventOnClick);
 };
 
