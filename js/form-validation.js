@@ -118,11 +118,9 @@ const validateType = (value) => {
 
 pristine.addValidator(typeElement, validateType);
 
-/**Синхронизация «Время заезда», «Время выезда». */
 timeParentElement.addEventListener('change', (evt) => {
   timeInElement.value = evt.target.value;
   timeOutElement.value = evt.target.value;
 });
-
 
 export {pristine};

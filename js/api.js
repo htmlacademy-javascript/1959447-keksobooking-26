@@ -21,11 +21,11 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail('Форма не отправлена. Попробуйте еще раз.');
+        onFail();
       }
     })
     .catch(() => {
-      onFail('Форма не отправлена. Попробуйте еще раз.');
+      onFail();
     });
 };
 
