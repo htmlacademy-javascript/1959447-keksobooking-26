@@ -3,10 +3,10 @@ import {COORDINATE_MAP, COUNT_MAP_ZOOM} from './consts.js';
 import {initForm, setUserFormSubmit} from './form.js';
 import {displayMessageError, displayMessageSuccess} from './message.js';
 import {getData} from './api.js';
-import {disablePage} from './general.js';
+import {disablePage} from './common.js';
 import {DEBOUNCE_DELAY} from './consts.js';
 import {initFilters, filterAds} from './form-filter.js';
-import {debounce} from './util.js';
+import {debounce} from './utils.js';
 
 initForm();
 disablePage();
