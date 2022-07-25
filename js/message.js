@@ -1,14 +1,30 @@
-import { MESSAGE_TIME } from './consts.js';
-
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+
+const closeMessage = () => {
+  const element = document.querySelector('.message_open');
+  element.remove();
+};
+
+const onMessageKeydown = (evt) => {
+  if (evt.keyCode === 27) {
+    closeMessage();
+    document.removeEventListener('keydown', onMessageKeydown);
+  }
+};
+
+const addListenerMessage = (elem) => {
+  document.addEventListener('keydown', onMessageKeydown);
+  elem.addEventListener('click', () => {
+    closeMessage();
+    document.removeEventListener('keydown', onMessageKeydown);
+  });
+};
 
 const displayMessageSuccess = () => {
   const successMessageElement = successTemplate.cloneNode(true);
   document.body.appendChild(successMessageElement);
-  setTimeout(() => {
-    successMessageElement.remove();
-  }, MESSAGE_TIME);
+  addListenerMessage(successMessageElement);
 };
 
 const displayMessageError = (error) => {
@@ -17,28 +33,7 @@ const displayMessageError = (error) => {
 
   const errorText = document.querySelector('.error__message');
   errorText.textContent = error;
-
-  const eventOnEsc = (evt) => {
-    if (evt.keyCode === 27) {
-      closeError();
-    }
-  };
-
-  const eventOnClick = () => {
-    closeError();
-  };
-
-  function closeError () {
-    errorMessageElement.remove();
-    document.removeEventListener('keydown', eventOnEsc);
-    document.removeEventListener('click', eventOnClick);
-  }
-
-  const errorMessageCloseButton = document.querySelector('.error__button');
-  errorMessageCloseButton.addEventListener('click', closeError);
-
-  document.addEventListener('keydown', eventOnEsc);
-  document.addEventListener('click', eventOnClick);
+  addListenerMessage(errorMessageElement);
 };
 
 export {displayMessageError, displayMessageSuccess};

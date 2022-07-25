@@ -1,4 +1,4 @@
-import {MAX_PRICE} from './consts.js';
+import {MAX_PRICE, MinPriceLimit} from './consts.js';
 
 const sliderElement = document.querySelector('.ad-form__slider');
 const valueElement = document.querySelector('.ad-form__value');
@@ -11,7 +11,7 @@ const valueElement = document.querySelector('.ad-form__value');
 const initSlider = ()  => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: 0,
+      min: MinPriceLimit.FLAT,
       max: MAX_PRICE,
     },
     start:0,
