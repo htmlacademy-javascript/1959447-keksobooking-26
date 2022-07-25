@@ -1,4 +1,4 @@
-import {MAX_PRICE} from './consts.js';
+import {MAX_PRICE, MIN_PRICE, MinPriceLimit, TitleCount, GuestsCount, RoomsCount} from './consts.js';
 
 const formElement = document.querySelector('.ad-form');
 const sliderElement = document.querySelector('.ad-form__slider');
@@ -21,35 +21,35 @@ const pristine = new Pristine(formElement, {
   errorTextClass: 'form__error'
 });
 
-const validateTitle = (value) => value.length >= 30 && value.length <= 100;
-pristine.addValidator(titleElement, validateTitle, 'Заголовок не менее 30 и не более 100 символов');
+const validateTitle = (value) => value.length >= TitleCount.MIN && value.length <= TitleCount.MAX;
+pristine.addValidator(titleElement, validateTitle, `Заголовок не менее ${TitleCount.MIN} и не более ${TitleCount.MAX} символов`);
 
-const validatePrice = (value) => value >= 0 && value <= MAX_PRICE;
+const validatePrice = (value) => value >= MIN_PRICE && value <= MAX_PRICE;
 pristine.addValidator(priceElement, validatePrice, `Максимальное значение ${MAX_PRICE}`);
 
 
 const validateRoomNumber = (value) => {
   const capacityValue = capacityElement.value;
 
-  if(value === '1') {
-    return capacityValue === '1';
-  } else if(value === '2') {
-    return capacityValue === '1' || capacityValue === '2';
-  } else if(value === '3') {
-    return capacityValue === '1' || capacityValue === '2' || capacityValue === '3';
-  } else if(value === '100') {
-    return capacityValue === '0';
+  if(value === GuestsCount.ONE) {
+    return capacityValue === GuestsCount.ONE;
+  } else if(value === GuestsCount.TWO) {
+    return capacityValue === GuestsCount.ONE || capacityValue === GuestsCount.TWO;
+  } else if(value === GuestsCount.THREE) {
+    return capacityValue === GuestsCount.ONE || capacityValue === GuestsCount.TWO || capacityValue === GuestsCount.THREE;
+  } else if(value === GuestsCount.ZERO) {
+    return capacityValue === GuestsCount.ZERO;
   }
 };
 
 const getRoomNumberErrorMessage = (value) => {
-  if(value === '1') {
-    return 'Для 1 гостя';
-  } else if(value === '2') {
-    return 'Возможно не более 2х гостей';
-  } else if(value === '3') {
-    return 'Возможно не более 3х гостей';
-  } else if(value === '100') {
+  if(value === RoomsCount.ONE) {
+    return `Для ${GuestsCount.ONE} гостя`;
+  } else if(value === RoomsCount.TWO) {
+    return `Возможно не более  ${GuestsCount.TWO}х гостей`;
+  } else if(value === RoomsCount.THREE) {
+    return `Возможно не более ${GuestsCount.THREE}х гостей`;
+  } else if(value === RoomsCount.HUNDRED) {
     return 'Не для гостей';
   }
 };
@@ -64,51 +64,51 @@ const validateType = (value) => {
   const price = priceElement;
 
   if(value === 'bungalow') {
-    price.placeholder = 0;
-    price.min = 0;
+    price.placeholder = MinPriceLimit.BUNGALOW;
+    price.min = MinPriceLimit.BUNGALOW;
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 0,
+        min: MinPriceLimit.BUNGALOW,
         max: MAX_PRICE,
       }
     });
     return true;
   } else if(value === 'flat') {
-    price.placeholder = 1000;
-    price.min = 1000;
+    price.placeholder = MinPriceLimit.FLAT;
+    price.min = MinPriceLimit.FLAT;
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 1000,
+        min: MinPriceLimit.FLAT,
         max: MAX_PRICE,
       }
     });
     return true;
   } else if(value === 'hotel') {
-    price.placeholder = 3000;
-    price.min = 3000;
+    price.placeholder = MinPriceLimit.HOTEL;
+    price.min = MinPriceLimit.HOTEL;
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 3000,
+        min: MinPriceLimit.HOTEL,
         max: MAX_PRICE,
       }
     });
     return true;
   } else if(value === 'house') {
-    price.placeholder = 5000;
-    price.min = 5000;
+    price.placeholder = MinPriceLimit.HOUSE;
+    price.min = MinPriceLimit.HOUSE;
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 5000,
+        min: MinPriceLimit.HOUSE,
         max: MAX_PRICE,
       }
     });
     return true;
   } else if(value === 'palace') {
-    price.placeholder = 10000;
-    price.min = 10000;
+    price.placeholder = MinPriceLimit.PALACE;
+    price.min = MinPriceLimit.PALACE;
     sliderElement.noUiSlider.updateOptions({
       range: {
-        min: 10000,
+        min: MinPriceLimit.PALACE,
         max: MAX_PRICE,
       }
     });

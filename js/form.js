@@ -3,7 +3,7 @@ import {initSlider, resetSlider} from './form-slider.js';
 import {pristine} from './form-validation.js';
 import {resetMap} from './map.js';
 import {displayMessageError} from './message.js';
-import { addImageHouseLoader, addAvatarLoader, clearPreview } from './images.js';
+import { addImageHouseLoader, addAvatarLoader, clearPreview } from './form-images-uploaders.js';
 import {clearFilterForm, filterAds} from './form-filter.js';
 import {ERROR_MESSAGE} from './consts.js';
 
@@ -30,7 +30,7 @@ const blockSubmitButton = () => {
   submitButtonElement.disabled = true;
 };
 
-const unBlockSubmitButton = () => {
+const unblockSubmitButton = () => {
   submitButtonElement.disabled = false;
 };
 
@@ -69,12 +69,12 @@ const setUserFormSubmit = (onSuccess) => {
       sendData(
         () => {
           onSuccess();
-          unBlockSubmitButton();
+          unblockSubmitButton();
           resetForm();
         },
         () => {
           displayMessageError(ERROR_MESSAGE);
-          unBlockSubmitButton();
+          unblockSubmitButton();
         },
         new FormData(evt.target),
       );

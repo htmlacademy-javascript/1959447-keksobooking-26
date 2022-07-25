@@ -1,3 +1,5 @@
+import {ERROR_MESSAGE, ERROR_MAP_MESSAGE} from './consts.js';
+
 const getData = (onSuccess, onFail) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
@@ -5,7 +7,7 @@ const getData = (onSuccess, onFail) => {
       onSuccess(data);
     })
     .catch(() => {
-      onFail('Ошибка при загрузке. Позже попробуйте ещё раз.');
+      onFail(ERROR_MAP_MESSAGE);
     });
 };
 
@@ -21,11 +23,11 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail();
+        onFail(ERROR_MESSAGE);
       }
     })
     .catch(() => {
-      onFail();
+      onFail(ERROR_MESSAGE);
     });
 };
 

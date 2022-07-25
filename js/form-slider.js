@@ -11,7 +11,7 @@ const valueElement = document.querySelector('.ad-form__value');
 const initSlider = ()  => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: 0,
+      min: 1000,
       max: MAX_PRICE,
     },
     start:0,
