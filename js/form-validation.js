@@ -1,4 +1,4 @@
-import {MAX_PRICE, MIN_PRICE, MinPriceLimit, TitleCount, GuestsCount, RoomsCount} from './consts.js';
+import {MAX_PRICE, MIN_PRICE, MinPriceLimit, TitleCount, GuestsCount, RoomsCount, HousingType} from './consts.js';
 
 const formElement = document.querySelector('.ad-form');
 const sliderElement = document.querySelector('.ad-form__slider');
@@ -63,7 +63,7 @@ capacityElement.addEventListener('change', () => {
 const validateType = (value) => {
   const price = priceElement;
 
-  if(value === 'bungalow') {
+  if(value === HousingType.BUNGALOW) {
     price.placeholder = MinPriceLimit.BUNGALOW;
     price.min = MinPriceLimit.BUNGALOW;
     sliderElement.noUiSlider.updateOptions({
@@ -73,7 +73,7 @@ const validateType = (value) => {
       }
     });
     return true;
-  } else if(value === 'flat') {
+  } else if(value === HousingType.FLAT) {
     price.placeholder = MinPriceLimit.FLAT;
     price.min = MinPriceLimit.FLAT;
     sliderElement.noUiSlider.updateOptions({
@@ -83,7 +83,7 @@ const validateType = (value) => {
       }
     });
     return true;
-  } else if(value === 'hotel') {
+  } else if(value === HousingType.HOTEL) {
     price.placeholder = MinPriceLimit.HOTEL;
     price.min = MinPriceLimit.HOTEL;
     sliderElement.noUiSlider.updateOptions({
@@ -93,7 +93,7 @@ const validateType = (value) => {
       }
     });
     return true;
-  } else if(value === 'house') {
+  } else if(value === HousingType.HOUSE) {
     price.placeholder = MinPriceLimit.HOUSE;
     price.min = MinPriceLimit.HOUSE;
     sliderElement.noUiSlider.updateOptions({
@@ -103,7 +103,7 @@ const validateType = (value) => {
       }
     });
     return true;
-  } else if(value === 'palace') {
+  } else if(value === HousingType.PALACE) {
     price.placeholder = MinPriceLimit.PALACE;
     price.min = MinPriceLimit.PALACE;
     sliderElement.noUiSlider.updateOptions({

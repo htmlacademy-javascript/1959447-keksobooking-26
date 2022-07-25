@@ -7,7 +7,6 @@ const closeMessage = () => {
 };
 
 const onMessageKeydown = (evt) => {
-
   if (evt.keyCode === 27) {
     closeMessage();
     document.removeEventListener('keydown', onMessageKeydown);

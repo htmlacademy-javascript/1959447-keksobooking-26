@@ -48,6 +48,14 @@ const PriceRange = {
   HIGH: 50000,
 };
 
+const HousingType = {
+  BUNGALOW: 'bungalow',
+  FLAT: 'flat',
+  HOTEL: 'hotel',
+  HOUSE: 'house',
+  PALACE: 'palace',
+};
+
 const DEBOUNCE_DELAY = 500;
 
 const IMAGE_FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
@@ -69,6 +77,7 @@ export {
   MinPriceLimit,
   PriceType,
   PriceRange,
+  HousingType,
   DEBOUNCE_DELAY,
   IMAGE_FILE_TYPES,
   DEFAULT_AVATAR,
